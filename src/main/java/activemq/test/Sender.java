@@ -1,5 +1,7 @@
 package activemq.test;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
@@ -23,7 +25,9 @@ public class Sender {
 		connection.start();
 		
 		// 3：通过Connection对象创建Session会话(上下文环境对象)，用户接受消息，参数1是否启用事务，参数2为签收模式
-		Session session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
+//		Session session = connection.createSession(Boolean.FALSE, Session.AUTO_ACKNOWLEDGE);
+//		Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
+		Session session = connection.createSession(Boolean.TRUE, Session.CLIENT_ACKNOWLEDGE);
 		
 		/*
 		 * 4：通过Session创建Destination对象，指一个客户端用来指定生产消息目标和消费消息来源对象，存放消息的地方
@@ -35,18 +39,25 @@ public class Sender {
 		 * 5：通过Session对象创建消息的发送和接受对象(生产者和消费者)MessageProducer/MessageConsumer，消息放入
 		 *	上一步创建的Destination
 		 */
-		MessageProducer producer = session.createProducer(destination);
+//		MessageProducer producer = session.createProducer(destination);
+		MessageProducer producer = session.createProducer(null);
 		
 		// 6：使用生产者的setDeliveryMode方法设置持久和非持久特性
-		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+//		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		
 		// 7：用JMS规范的TextMessage形式创建数据(通过Session对象)，使用生产者的send方法发送数据
 		TextMessage message = session.createTextMessage();
 		for (int i = 0; i < 5; i++) {
-			message.setText("测试发送消息");
-			producer.send(message);
+			message.setText("测试发送消息:"+i);
+//			producer.send(message);
+			// 参数一：消息发送目的地
+			// 参数二：消息内容
+			// 参数三： 是否持久化
+			// 参数四：优先级(0-9 0-4普通 5-9加急 默认4)
+			producer.send(destination, message, DeliveryMode.NON_PERSISTENT, i, 1000*60*2);
+			TimeUnit.MILLISECONDS.sleep(10);
 		}
-		
+		session.commit();
 		if(connection != null){
 			connection.close();
 		}
