@@ -2,16 +2,22 @@ package activemq.test;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
 import javax.jms.Destination;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+/**
+ * 消费者
+ * 1：首先建立连接，用户名、密码、tcp地址
+ * 2：创建连接，然后打开连接
+ * 3：创建Session会话，关联着生产者消费者以及消息的目的地，创建Session时可指定是否需要事务以及签收方式
+ * 4：通过Session创建Destination，用来存放消息的目的地
+ * 5：创建消费者
+ * 6：使用消费者消费消息
+ */
 public class ReceiveString {
 
 	public static void main(String[] args) throws Exception {
@@ -47,7 +53,7 @@ public class ReceiveString {
 			if(msg == null){
 				break;
 			}
-			// 设置手动签收
+			// 设置手动签收，才可以完成消息的消费
 			msg.acknowledge();
 			System.out.println("收到的内容：" + msg.getText());
 		}
