@@ -12,7 +12,7 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class Receive {
+public class ReceiveString {
 
 	public static void main(String[] args) throws Exception {
 		// 1：建立ConnectionFactory对象，需要用户名、密码已经连接地址(默认tcp://localhost:61616)
