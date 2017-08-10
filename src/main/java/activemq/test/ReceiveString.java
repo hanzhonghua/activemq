@@ -53,7 +53,7 @@ public class ReceiveString {
 			if(msg == null){
 				break;
 			}
-			// 设置手动签收，才可以完成消息的消费
+			// 设置手动签收，才可以完成消息的消费，如果不设置的话，只能读取消息，但是消费不了
 			msg.acknowledge();
 			System.out.println("收到的内容：" + msg.getText());
 		}
