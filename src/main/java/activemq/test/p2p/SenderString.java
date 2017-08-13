@@ -1,4 +1,4 @@
-package activemq.test;
+package activemq.test.p2p;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;

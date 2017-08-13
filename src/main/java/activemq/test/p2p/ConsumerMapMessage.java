@@ -1,4 +1,4 @@
-package activemq.test;
+package activemq.test.p2p;
 
 
 import javax.jms.Connection;
@@ -14,6 +14,10 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+/**
+ * 如果在接受消息时使用了Selector，发送者发送消息的必须使用group才可以让消息被接受
+ * producer.setStringProperty("name","jieke");
+ */
 public class ConsumerMapMessage {
 
 	public final String SELECTOR_1 = "color = 'blue'";
